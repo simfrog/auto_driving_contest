@@ -1,0 +1,343 @@
+<launch>
+   <node pkg="map_file" type="vector_map_loader" name="vector_map_loader" output="screen">
+    <param name="load_mode" value="directory" />
+    <param name="host_name" value="133.6.148.90" />
+    <param name="port" value="80" />
+    <param name="user" value="" />
+    <param name="password" value="" />
+
+  <!--2021 vector_map-->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/parkinglot/2021" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/parkinglot/2021_left_straight" />    -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/parkinglot/2021_withCurb" />    -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil/vector_map_2021_left" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/kcity/kcity_vectormap/second" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/parkinglot/delivery_parkinglot2" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil_test/delivery_temp" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil_test/soongsil_parking" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil_test/soongsil_delivery_new" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil_test/soongsil_s_curve" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/lightpark/lightpark_obj" /> -->
+    <!-- <param name="map_dir" value="$(env HOME)/shared_dir/map/soongsil/soongsil_main3" /> -->
+    <param name="map_dir" value="$(env HOME)/shared_dir/map/kcity/kcity_vectormap/kcity_test2_withCurb" />
+  </node>
+  
+<!--2021 points_map-->
+  <arg name="path_pcd" default='"/home/autoware/shared_dir/map/kcity/points_map/kcity_20190629_0_new.pcd"' /> 
+  <!-- <arg name="path_pcd" default='"/home/autoware/shared_dir/map/parkinglot/parkinglot1.pcd"' /> -->
+  <!-- <arg name="path_pcd" default='"/home/autoware/shared_dir/map/soongsil/points_map/20190512_soongsil_0.2.pcd"' /> -->
+  <!-- <arg name="path_pcd" default='"/home/autoware/shared_dir/map/lightpark/pointmap/lightpark.pcd"' /> -->
+
+<!-- ==================================== sensor & erp42 driver ======================================= -->
+   <!--imu_driver -->
+   <!--<node pkg="mysen_imu_driver" type="driver_node" name="mysen_imu">
+    <param name="port" value="/dev/mysen_imu"/>
+    <param name="mode" value="6"/>
+  </node> -->
+
+  <!-- -0.066 > x > -0.106 -->
+<!-- 0.02 -->
+<!-- 0.814 > z > 0.794 -->
+
+  <!--=====================================================================================camera_info publisher ========================================================================-->
+  <arg name="width" default="1920"/>
+  <arg name="height" default="1200"/>
+
+  <arg name="c_x" default="$(eval 0.5 * arg('width'))"/>
+  <arg name="c_y" default="$(eval 0.5 * arg('height'))"/>
+  <arg name="f_x" default="2239.382"/>
+  <arg name="f_y" default="2231.110"/>
+  <arg name="max_f" default="$(eval arg('f_x') if arg('f_x') >= arg('f_y') else arg('f_y'))"/>
+
+  <arg name="calib_mat_K" default="[$(arg max_f), 0, $(arg c_x), 0, $(arg max_f), $(arg c_y), 0, 0, 1]"/>
+  <arg name="calib_mat_R" default="[1, 0, 0, 0, 1, 0, 0, 0, 1]"/>
+  <arg name="calib_mat_P" default="[$(arg max_f), 0, $(arg c_x), 0, 0, $(arg max_f), $(arg c_y), 0, 0, 0, 1, 0]"/>
+  <arg name="calib_mat_D" default="[0.1726 -2.348617 0.011128 0.009115]"/>
+
+  <node name="camera_info_publisher" pkg="camera_info_publisher" type="camera_info_publisher" output="screen">
+
+    <param name="width" value="$(arg width)" />
+    <param name="height" value="$(arg height)" />
+    <param name="c_x" value="$(arg c_x)" />
+    <param name="c_y" value="$(arg c_y)" />
+    <param name="f_x" value="$(arg f_x)" />
+    <param name="f_y" value="$(arg f_y)" />
+    <param name="max_f" value="$(arg max_f)" />
+
+    <param name="calib_mat_K" value="$(arg calib_mat_K)" />
+    <param name="calib_mat_R" value="$(arg calib_mat_R)" />
+    <param name="calib_mat_P" value="$(arg calib_mat_P)" />
+    <param name="calib_mat_D" value="$(arg calib_mat_D)" />
+
+  </node>
+  <!-- =========================================================================================================================================================================== -->
+  
+  
+  <node pkg="imu_vn100_yu" type="imu_driver_node" name="vn100_imu">
+    <param name="port" value="/dev/vn100_imu"/>
+    <param name="baudrate" value="115200"/>
+  </node>
+
+  <!-- velodyne 16 -->
+  <arg name="pcap" default="" />
+  <arg name="calibration" default="$(find velodyne_pointcloud)/params/VLP16db.yaml"/>
+  <arg name="min_range" default="0.4" />
+  <arg name="max_range" default="130.0" />
+  <arg name="model" default="VLP16"/>
+  <arg name="topic_name" default="points_raw"/>
+
+  <!-- start nodelet manager and driver nodelets -->
+  <include file="$(find velodyne_driver)/launch/nodelet_manager.launch">
+    <arg name="model" value="$(arg model)"/>
+    <arg name="pcap" value="$(arg pcap)"/>
+  </include>
+
+  <!-- start cloud nodelet -->
+  <node pkg="nodelet" type="nodelet" name="cloud_nodelet"
+        args="load velodyne_pointcloud/CloudNodelet velodyne_nodelet_manager">
+    <param name="calibration" value="$(arg calibration)"/>
+    <param name="min_range" value="$(arg min_range)"/>
+    <param name="max_range" value="$(arg max_range)"/>
+    <remap from="velodyne_points" to="$(arg topic_name)"/>
+  </node>
+
+  <!-- erp42 driver -->
+  <node pkg="erp42_driver" type="erp42_main" name="erp42_main">
+    <param name="port" value="/dev/erp42"/>
+    <param name="frequency" value="20"/>
+    <param name="wheelbase" value="1.14"/> <!--2020 1.12-->
+    <param name="maximum_steering_angle" value="2000"/>
+    <param name="minimum_turning_radius" value="2.6"/>
+    <param name="initWriteThread" value="true"/>
+    <param name="settling_time" value="1.7"/>
+	  <param name="weight" value="1.1"/>  <!--2020 keep-->
+	  <param name="shift" value="20.0"/>
+	  <param name="steer_kp" value="1.0"/>
+	  <param name="steer_ki" value="0.0"/>
+	  <param name="steer_kd" value="0.0"/>
+	  <param name="brake_max" value="200"/>
+	  <param name="brake_kp" value="25"/>
+	  <param name="brake_ki" value="0.0"/>
+	  <param name="brake_kd" value="0.0"/>
+	  <param name="accel_kp" value="1.0"/>  
+	  <param name="accel_ki" value="0.5"/>
+	  <param name="accel_kd" value="0.0"/>
+    
+	  <param name="C0" value="0.30"/> <!-- original value 0.108 -->
+	  <param name="C1" value="0.005"/>
+	  
+    <param name="max_estop_time" value="20"/>
+
+  </node>
+
+  <node pkg="vehicle_status_sender" type="vehicle_status_sender" name="vehicle_status_sender"/>
+
+
+<!-- ================================== ndt matching launch ========================================== -->
+	<arg name="method_type" default="0" /> <!-- pcl_generic=0, pcl_anh=1, pcl_anh_gpu=2, pcl_openmp=3 -->
+  	<arg name="use_gnss" default="0" />
+  	<arg name="use_odom" default="false" />
+  	<arg name="use_imu" default="false" />
+  	<arg name="imu_upside_down" default="false" />
+  	<arg name="imu_topic" default="/imu" />
+  	<arg name="queue_size" default="1" />
+  	<arg name="offset" default="linear" />
+  	<arg name="get_height" default="false" />
+  	<arg name="use_local_transform" default="false" />
+  	<arg name="sync" default="false" />
+  	<arg name="output_log_data" default="false" />
+
+  <node pkg="lidar_localizer" type="ndt_matching" name="ndt_matching" output="log">
+    <param name="method_type" value="$(arg method_type)" />
+    <param name="use_gnss" value="$(arg use_gnss)" />
+    <param name="use_odom" value="$(arg use_odom)" />
+    <param name="use_imu" value="$(arg use_imu)" />
+    <param name="imu_upside_down" value="$(arg imu_upside_down)" />
+    <param name="imu_topic" value="$(arg imu_topic)" />
+    <param name="queue_size" value="$(arg queue_size)" />
+    <param name="offset" value="$(arg offset)" />
+    <param name="get_height" value="$(arg get_height)" />
+    <param name="use_local_transform" value="$(arg use_local_transform)" />
+    <param name="output_log_data" value="$(arg output_log_data)" />
+    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+  </node>
+
+<!-- voxel grid fillter -->
+  <arg name="node_name" default="voxel_grid_filter" />
+  <arg name="points_topic" default="points_raw" />
+  <arg name="output_log" default="false" />
+  <arg name="voxel_leaf_size" default="0.4" />
+  <node pkg="points_downsampler" name="$(arg node_name)" type="$(arg node_name)">
+    <param name="points_topic" value="$(arg points_topic)" />
+    <remap from="/points_raw" to="/sync_drivers/points_raw" if="$(arg sync)" />
+    <param name="output_log" value="$(arg output_log)" />
+    <param name="voxel_leaf_size" value="$(arg voxel_leaf_size)" />
+  </node>
+
+
+<!--points map loader-->
+<arg name="scene_num" default="noupdate" />
+ <arg name="path_area_list" default='""' />
+
+ <node pkg="map_file" type="points_map_loader" name="points_map_loader" >
+  <rosparam subst_value="true">
+    area: $(arg scene_num)
+    arealist_path: $(arg path_area_list)
+    pcd_paths: [ $(arg path_pcd) ]
+  </rosparam>
+ </node> 
+
+<!-- tf -->
+  <node pkg="tf"  type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
+  <node pkg="tf"  type="static_transform_publisher" name="map_to_mobility" args="0 0 0 0 0 0 /map /mobility 10" />
+
+<!-- setup_tf.launch -->
+  <arg name="x" default="0.08"/> <!--2020 0.10 -->
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.63"/> <!--2020 0.62-->
+  <arg name="yaw" default="0.0"/> <!--1.57079632-->
+  <arg name="pitch" default="0.0"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="frame_id" default="base_link"/>
+  <arg name="child_frame_id" default="velodyne"/>
+  <arg name="period_in_ms" default="10"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_localizer" args="$(arg x) $(arg y) $(arg z) $(arg yaw) $(arg pitch) $(arg roll) $(arg frame_id) $(arg child_frame_id) $(arg period_in_ms)"/>
+
+<node pkg="odom_imu_merger" type="odom_imu_merger" name="odom_imu_merger">
+        <param name="odom_topic" value="vehicle/odom"/>
+        <param name="imu_topic" value="imu"/>
+        <param name="twist_topic" value="can_twist"/>
+    </node>
+
+
+  <arg name="show_debug_info" default="false"/>
+  <arg name="enable_yaw_bias_estimation" default="True"/>
+  <arg name="predict_frequency" default="50.0"/>
+  <arg name="tf_rate" default="10.0"/>
+  <arg name="extend_state_step" default="50"/>
+
+
+<!-- ekf -->
+  <!-- for Pose measurement -->
+  <arg name="use_pose_with_covariance" default="false"/>
+  <arg name="input_pose_name" default="ndt_pose"/>
+  <arg name="input_pose_with_cov_name" default="in_pose_with_covariance"/>
+  <arg name="pose_additional_delay" default="0.0"/>
+  <arg name="pose_measure_uncertainty_time" default="0.01"/>
+  <arg name="pose_rate" default="10.0"/>
+  <arg name="pose_gate_dist" default="10000.0"/>
+  <arg name="pose_stddev_x" default="0.05"/>
+  <arg name="pose_stddev_y" default="0.05"/>
+  <arg name="pose_stddev_yaw" default="0.025"/>
+
+  <!-- for twist measurement -->
+  <arg name="use_twist_with_covariance" default="false"/>
+  <arg name="input_twist_name" default="can_twist"/>
+  <arg name="input_twist_with_cov_name" default="in_twist_with_covariance"/>
+  <arg name="twist_additional_delay" default="0.1"/>
+  <arg name="twist_rate" default="10.0"/>
+  <arg name="twist_gate_dist" default="10000.0"/>
+  <arg name="twist_stddev_vx" default="0.2"/>
+  <arg name="twist_stddev_wz" default="0.03"/>
+
+  <!-- for process model -->
+  <arg name="proc_stddev_yaw_c" default="0.005"/>
+  <arg name="proc_stddev_yaw_bias_c" default="0.001"/>
+  <arg name="proc_stddev_vx_c" default="0.2"/>
+  <arg name="proc_stddev_wz_c" default="0.317321"/>
+
+
+  <node pkg="ekf_localizer" type="ekf_localizer" name="ekf_localizer" output="screen">
+
+    <remap unless="$(arg use_pose_with_covariance)" from="in_pose" to="$(arg input_pose_name)"/>
+    <remap unless="$(arg use_pose_with_covariance)" from="in_pose_with_covariance" to="input_pose_with_cov_UNUSED"/>
+    <remap if="$(arg use_pose_with_covariance)" from="in_pose" to="input_pose_UNUSED"/>
+    <remap if="$(arg use_pose_with_covariance)" from="in_pose_with_covariance" to="$(arg input_pose_with_cov_name)"/>
+
+    <remap unless="$(arg use_twist_with_covariance)" from="in_twist" to="$(arg input_twist_name)"/>
+    <remap unless="$(arg use_twist_with_covariance)" from="in_twist_with_covariance" to="input_twist_with_covariance_UNUSED"/>
+    <remap if="$(arg use_twist_with_covariance)" from="in_twist" to="input_twist_UNUSED"/>
+    <remap if="$(arg use_twist_with_covariance)" from="in_twist_with_covariance" to="$(arg input_twist_with_cov_name)"/>
+
+    <remap from="initialpose" to="/initialpose"/>
+
+    <param name="pose_frame_id" value="/map"/>
+
+    <param name="show_debug_info" value="$(arg show_debug_info)"/>
+    <param name="enable_yaw_bias_estimation" value="$(arg enable_yaw_bias_estimation)"/>
+
+    <param name="predict_frequency" value="$(arg predict_frequency)"/>
+    <param name="tf_rate" value="$(arg tf_rate)"/>
+    <param name="extend_state_step" value="$(arg extend_state_step)"/>
+
+    <param name="use_pose_with_covariance" value="$(arg use_pose_with_covariance)"/>
+    <param name="pose_additional_delay" value="$(arg pose_additional_delay)"/>
+    <param name="pose_measure_uncertainty_time" value="$(arg pose_measure_uncertainty_time)"/>
+    <param name="pose_rate" value="$(arg pose_rate)"/>
+    <param name="pose_gate_dist" value="$(arg pose_gate_dist)"/>
+    <param name="pose_stddev_x" value="$(arg pose_stddev_x)"/>
+    <param name="pose_stddev_y" value="$(arg pose_stddev_y)"/>
+    <param name="pose_stddev_yaw" value="$(arg pose_stddev_yaw)"/>
+
+    <param name="use_twist_with_covariance" value="$(arg use_twist_with_covariance)"/>
+    <param name="twist_additional_delay" value="$(arg twist_additional_delay)"/>
+    <param name="twist_rate" value="$(arg twist_rate)"/>
+    <param name="twist_gate_dist" value="$(arg twist_gate_dist)"/>
+    <param name="twist_stddev_vx" value="$(arg twist_stddev_vx)"/>
+    <param name="twist_stddev_wz" value="$(arg twist_stddev_wz)"/>
+
+    <param name="proc_stddev_yaw_c" value="$(arg proc_stddev_yaw_c)"/>
+    <param name="proc_stddev_yaw_bias_c" value="$(arg proc_stddev_yaw_bias_c)"/>
+    <param name="proc_stddev_vx_c" value="$(arg proc_stddev_vx_c)"/>
+    <param name="proc_stddev_wz_c" value="$(arg proc_stddev_wz_c)"/>
+
+  </node>
+
+  <!-- send table.xml to param server -->
+  <arg name="topic_pose_stamped" default="/ekf_pose" />
+  <arg name="topic_twist_stamped" default="/ekf_twist" />
+
+  <node pkg="autoware_connector" type="can_status_translator" name="can_status_translator" output="log" />
+  <node pkg="topic_tools" type="relay" name="pose_relay" output="log" args="$(arg topic_pose_stamped) /current_pose"/>
+  <node pkg="topic_tools" type="relay" name="vel_relay" output="log" args="$(arg topic_twist_stamped) /current_velocity"/>
+
+
+  <!-- camera driver -->
+  <arg name="camera_name" default="camera" />
+  <arg name="camera_serial" default="0" />
+  <arg name="calibrated" default="0" />
+
+  <group ns="$(arg camera_name)">
+    <node pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" />
+
+    <node pkg="nodelet" type="nodelet" name="camera_nodelet"
+          args="load pointgrey_camera_driver/PointGreyCameraNodelet camera_nodelet_manager" >
+      <param name="frame_id" value="camera" />
+      <param name="serial" value="$(arg camera_serial)" />
+
+      <!-- When unspecified, the driver will use the default framerate as given by the
+           camera itself. Use this parameter to override that value for cameras capable of
+           other framerates. -->
+      <param name="frame_rate" value="25" />
+
+      <!-- Use the camera_calibration package to create this file -->
+      <param name="camera_info_url" if="$(arg calibrated)"
+             value="file://$(env HOME)/.ros/camera_info/$(arg camera_serial).yaml" />
+    </node>
+ 
+    <!-- <node pkg="nodelet" type="nodelet" name="image_proc_debayer"
+          args="load image_proc/debayer camera_nodelet_manager">
+    </node> -->
+
+    <node pkg="dynamic_reconfigure" type="dynparam" name="dynparam"
+          args="load /camera/camera_nodelet /home/autoware/shared_dir/catkin_ws/src/pointgrey_camera_driver/pointgrey_camera_driver/cfg/erp42_camera.yaml">
+    </node>
+  </group>
+</launch>   
+
+
+ 
+
+
+    
