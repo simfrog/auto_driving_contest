@@ -1,0 +1,56 @@
+# this yaml file made by sm for test TRAFFIC LIGHT and also PRELIMINARY ROUND
+# using the map 'soongsil_inside'
+# DON'T DELETE!!!
+not_use_mission_handler: false
+
+mission_names: ["traffic1", "traffic2", "emergency_obstacle", "obstacle_avoidance"]
+mission_types: # parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [2, 2, 3, 1]
+mission_activate_ary: [
+  true, # traffic1
+  true, # traffic2
+  true, # emergency_obstacle
+  false  # obstacle_avoidance
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+traffic1: 
+  poly: [29.2714, 13.166, 25.9914, 13.3052, 24.2697, 41.2826, 27.9214, 41.3361]
+  stopline_points : [24.3561, 40.1302, 28.0152, 40.0376] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 1 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic2: 
+  poly: [27.4311, 52.5326, 23.0309, 52.6999, 21.2249, 83.7816, 24.9493, 83.7911]
+  stopline_points : [21.3664, 82.0405, 25.2828, 82.0538] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 2 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+emergency_obstacle:
+  # poly: [-8.5911, 92.9707, -8.9257, 87.7466, -30.9838, 87.7241, -30.7097, 92.6584]
+  # new
+  # poly: [-6.838, 93.3737, -6.2919, 89.7577, -29.9135, 899.8513, -30.291, 92.8017]
+  poly: [1.4144, 96.6578, 1.3761, 86.6583, -28.1113, 86.3556, -29.1276, 95.3513]
+  driving_velocity : 4.0 
+  dynamic_obj_velocity : 2.0
+  detection_limit_radius : 3.5
+
+obstacle_avoidance: 
+  # poly: [-41.5271, 73.8515, -36.7743, 74.0329, -35.9326, 37.998, -40.6298, 38.133]
+  # new
+  poly: [-41.9365, 75.5039, -37.5087, 75.4577, -36.6148, 35.4695, -41.4005, 35.4982]
+  avoidance_velocity: 2.0
+  driving_velocity: 4.0
+  avoidance_distance: 4.5

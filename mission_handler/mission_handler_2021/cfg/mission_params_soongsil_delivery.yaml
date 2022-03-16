@@ -1,0 +1,30 @@
+# this yaml file made by sm for test TRAFFIC LIGHT and also PRELIMINARY ROUND
+# using the map 'soongsil_inside'
+# DON'T DELETE!!!
+not_use_mission_handler: false
+
+mission_names: ["delivery1", "delivery2"]
+mission_types: # parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [4, 4]
+mission_activate_ary: [
+  true,  # delivery1
+  true  # delivery1
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+
+delivery1:
+  poly: [24.9054, 14.0889, 24.9744, -2.8038, -16.3297, -4.5134, -16.1903, 13.4632] # 베어드홀 앞
+  searching_velocity: 1.5
+  driving_velocity: 3.0
+  epsilon_goal_current: 1.0
+  max_waiting_time: 5
+
+delivery2:
+  poly: [24.9054, 14.0889, 24.9744, -2.8038, -16.3297, -4.5134, -16.1903, 13.4632] # 베어드홀 앞
+  searching_velocity: 1.5
+  driving_velocity: 3.0
+  epsilon_goal_current: 1.0
+  max_waiting_time: 5

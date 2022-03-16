@@ -1,0 +1,20 @@
+# this yaml file made by sm for test TRAFFIC LIGHT and also PRELIMINARY ROUND
+# using the map 'soongsil_inside'
+# DON'T DELETE!!!
+not_use_mission_handler: false
+
+mission_names: ["parking"]
+mission_types: # parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [0]
+mission_activate_ary: [
+  true  # delivery
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+
+parking:
+  poly: [33.0965, 8.1567, 36.2345, -9.4656, -12.2014, -12.2808, -12.8554, 7.7065] # infront of Barid Hall (straight)
+  # seeking_velocity: 1.5   # velocity while parking
+  driving_velocity: 3.0   # velocity after parking

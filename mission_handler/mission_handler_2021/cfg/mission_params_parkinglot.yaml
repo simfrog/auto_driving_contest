@@ -1,0 +1,69 @@
+#x, y, x, y, ...
+not_use_mission_handler: false
+
+mission_names: ["delivery"]
+mission_types: #parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [4]
+mission_activate_ary: [
+  true #emergency_obstacle
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+# parking: 
+#   poly: [79.4554, 70.589, 78.8616, 59.6816, 44.4618, 59.0815, 44.402, 70.4082]
+#   seeking_velocity: 3.0
+#   parking_time: 4.0
+#   n_goal : 2
+#   driving_velocity: 3.0
+#   #(x_pose, y_pose, z_ori, w_ori) * 2 * n_goal_area. consider only xy plane since /move_base_simple/goal handles only 2d
+#   goal_pose : [62.711, 67.433, 0.9090, 0.4166, 68.796, 63.834, 0.989, -0.145, #goal1 ,62.600,66.787,0.8376, 0.5462
+#                59.935, 67.559, 0.888, 0.459, 66.238, 63.936, 0.991, -0.133] #goal2
+#   #(x_pose, y_pose) * 4 * n_goal_area
+#   goal_area : [64.725, 66.342, 62.509, 70.500, 60.368, 69.430, 62.629, 65.101,
+#                62.075, 65.983, 59.719, 70.637, 57.699, 69.702, 59.815, 65.127]
+
+# obstacle_avoidance: 
+#   poly: [92.0219, 38.9408, 87.7726, 39.0579, 92.776, 24.6732, 89.1511, 24.3346]
+#   avoidance_velocity: 1.5
+#   driving_velocity: 4.0
+#   avoidance_distance: 4.5
+
+# traffic1: 
+#   poly: [89.0981, 27.5848, 92.8731, 28.7326, 93.6187, 21.1931, 89.7247, 20.6132]
+#   # poly: [88.3985, 26.7849, 92.3226, 27.5594, 94.7116, 16.8241, 89.7969, 15.9999] #successed
+#   # poly: [91.4035, 36.4861, 94.0432, 16.6992, 89.6834, 15.7139, 87.7944, 35.8451] #left_total_poly
+#   # stopline_points : [92.9811, 27.645, 88.6558, 26.6651] #left_total #(x1, y1), (x2, y2). they are points on the stopline
+#   stopline_points : [89.6352, 21.6091, 93.3702, 22.8157] #(x1, y1), (x2, y2). they are points on the stopline
+#   # stopline_points : [89.7756, 17.719, 93.6914, 18.5348] #successed #(x1, y1), (x2, y2). they are points on the stopline
+#   type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+#   n_hole: 3
+#   section: 1 #traffic light area identifier. must be aligned with traffic light sender node
+#   traffic_velocity: 1
+#   driving_velocity: 3
+#   safety_margin: 2.0
+#   max_waiting_time: 10
+
+delivery:
+  # poly: [87.0454, 20.287, 91.191, 42.3478, 94.6656, 13.5425, 89.6966, 13.0118] # parkinglot_left_total
+  poly: [77.5849, 45.4331, 94.0616, 48.0971, 99.1358, 10.4699, 81.5559, 7.7491] # parkinglot_center_total
+  searching_velocity: 1.5
+  driving_velocity: 3.0
+  epsilon_goal_current: 1.0
+  max_waiting_time: 5
+
+# emergency_obstacle: 
+#   poly: [89.0981, 27.5848, 92.8731, 28.7326, 93.6187, 21.1931, 89.7247, 20.6132]  #left_total_poly
+#   poly_endLine: [89.6352, 21.6091, 93.3702, 22.8157, 93.6187, 21.1931, 89.7247, 20.6132] #left_total_poly
+#   # poly: [87.6521, 37.9111, 90.7726, 38.0961, 92.5393, 25.2113, 89.6474, 24.208]  #left_1.5~3_column
+#   # poly_endLine: [89.2575, 24.1385, 92.5393, 25.2113, 92.5393, 25.2113, 89.6474, 24.208] #left_1.5~3_column
+#   # poly: [88.5546, 37.9333, 90.426, 38.0434, 91.692, 24.7231, 89.8756, 24.2552]   #left_1.5~3_column_narrow
+#   # poly_endLine: [89.8043, 24.9938, 91.6559, 25.1025, 91.692, 24.7231, 89.8756, 24.2552] #left_1.5~3_column_narrow
+#   # poly: [85.8025, 35.6046, 89.755, 36.6266, 91.7707, 24.2156, 87.7978, 23.7569]  #center_1.5~3_column
+#   # poly_endLine: [87.3214, 23.7019, 91.7001, 24.7909, 91.7707, 24.2156, 87.7978, 23.7569] #center_1.5~3_column
+#   driving_velocity : 4.0 
+#   dynamic_obj_velocity : 2.0
+#   # detection_limit_x : 4.8
+#   # detection_limit_y : 2.5
+#   detection_limit_radius : 3.5

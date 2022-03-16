@@ -1,0 +1,31 @@
+not_use_mission_handler: false
+
+mission_names: ["obstacle_avoidance1", "emergency_obstacle"]
+mission_types: #parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [4, 3]
+mission_activate_ary: [
+  true, #obstacle_avoidance1 (소형장애물)
+  true  #emergency_obstacle (동적장애물)
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+
+# obstacle_avoidance1: 
+#   poly: [23.153, 48.1258, 30.4405, 49.9819, 32.4403, 22.0741, 25.1267, 20.4366]
+#   avoidance_velocity: 1.5
+#   driving_velocity: 4.0
+#   avoidance_distance: 4.5
+
+obstacle_avoidance1: # 분수대~한경직 front
+  # poly: [155.292, -170.961, 163.043, -176.199, 145.362, -205.029, 138.209, -198.916] # ??
+  poly: [32.987, 18.8014, 25.1185, 17.4699, 22.1745, 47.933, 29.9482, 48.6397] # 210826
+  avoidance_velocity: 1.5
+  driving_velocity: 4.0
+  avoidance_distance: 4.5
+
+emergency_obstacle: # 분수대~한경직 back
+  poly: [19.725, 90.033, 26.4164, 90.6303, 30.2187, 48.7443, 22.4166, 48.1201]
+  driving_velocity : 2.0 
+  dynamic_obj_velocity : 2.0

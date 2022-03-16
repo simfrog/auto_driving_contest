@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>mission_handler_2021</name>
+  <version>0.0.0</version>
+  <description>The mission_handler_2021 package</description>
+
+  <maintainer email="jw@todo.todo">tw</maintainer>
+
+
+  <license>TODO</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <export>
+  </export>
+
+  <depend>autoware_msgs</depend>
+  <depend>traffic_light_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>actionlib</depend>
+  <depend>traffic_area_msgs</depend>
+  <depend>tf</depend>
+</package>

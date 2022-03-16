@@ -1,0 +1,139 @@
+ #x, y, x, y, ...
+not_use_mission_handler: False
+
+mission_names: ["parking", "traffic1", "traffic2", 
+"obstacle_avoidance", "traffic3", "delivery", 
+"traffic4", "traffic5", 
+"traffic6", "traffic7", "traffic8"]
+
+mission_types: #parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [0, 2, 2, 1, 2, 4, 2, 2, 2, 2, 2]
+mission_activate_ary: [
+  true, #parking
+  true, #traffic 1
+  true, #traffic 2
+  false, #obstacle_avoidance
+  true, #traffic 3
+  false, #delivery
+  true, #traffic 4
+  true, #traffic 5
+  true, #traffic 6
+  true, #traffic 7
+  true, #traffic 8
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+parking: 
+  poly: [234.318, -208.764, 237.061, -204.1078, 173.8925, -167.9603, -173.175, 1.5009]
+  seeking_velocity: 2.0
+  driving_velocity: 3.0
+
+traffic1: 
+  poly: [153.7826,-163.174, 157.0889, -157.2801, 130.1049, -142.0221, 126.7396,-146.5548]
+  stopline_points : [138.2914, -146.7398, 136.3431, -150.948] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 1 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic2: 
+  poly: [106.0504, -136.8675, 108.5446, -130.3277, 83.6276, -114.6488, 79.9061, -120.5758]
+  stopline_points : [90.1446, -119.0794, 86.9603, -125.1242]
+  type : "STRAIGHT"
+  n_hole: 4
+  section: 2
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+obstacle_avoidance : 
+  poly: [22.8206, -92.1348, 27.3935, -82.1316, -6.5053, -67.9842, -10.3524, -78.2889]
+  avoidance_velocity: 3.0
+  driving_velocity: 3.0
+  avoidance_distance: 10.0 
+
+traffic3: 
+  poly: [-11.5438, -78.5258, -10.4428, -67.5813, -42.8467, -63.5639, -42.9846, -73.7679]
+  stopline_points : [-32.6422,-64.4602, -32.9805,-72.4445] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 3 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+  
+delivery:
+  poly: [-45.0624, -74.401, -45.3364, -60.7489, -158.273, -56.9664, -159.0178, -72.219] # 주차장 poly
+  searching_velocity: 1.5
+  driving_velocity: 3.0
+  epsilon_goal_current: 1.0
+  stopline_points : [-137.2848,-57.6693,-138.4529,-72.7604]
+  type : "LEFT"
+  n_hole: 3
+  section: 4
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic4: 
+  poly: [-241.0903, -73.3496, -241.2631, -63.6762, -289.1121, -64.0217, -288.1004, -73.9703]
+  stopline_points : [-280.259,-64.2414,-280.423,-73.989]
+  type : "LEFT"
+  n_hole: 3
+  section: 4
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic5: 
+  poly: [-215.1302,-132.6111, -215.312, -147.878, -174.3803, -149.9657, -174.721, -131.9849]
+  stopline_points : [-191.1036,-132.2935,-191.7387,-149.1227]
+  type : "LEFT" 
+  n_hole: 4
+  section: 5
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic6: 
+  poly: [-97.7459, -76.078, -97.2958, -85.8679, -55.7734, -86.6555, -55.7734, -76.6568]
+  stopline_points : [-67.7287, -76.1156, -67.7287, -86.1153]
+  type : "STRAIGHT"
+  n_hole: 3
+  section: 6
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic7: 
+  poly: [40.183, -100.873, 36.6842, -108.7114, 63.5716, -124.2423, 67.2425, -115.9979]
+  stopline_points : [56.7947,-110.0058, 52.9157,-118.1261]
+  type : "STRAIGHT"
+  n_hole: 4
+  section: 7
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic8: 
+  poly: [86.1392, -126.7745, 84.3302, -130.4956, 107.1462, -143.3723, 108.7095, -139.6792]
+  stopline_points : [101.7021,-136.8252, 100.2228, -139.4351]
+  type : "STRAIGHT"
+  n_hole: 4
+  section: 7
+  traffic_velocity: 3.0
+  driving_velocity: 3.0
+  safety_margin: 1.0
+  max_waiting_time: 60.0

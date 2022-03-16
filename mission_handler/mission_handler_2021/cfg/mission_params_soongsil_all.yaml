@@ -1,0 +1,137 @@
+# this yaml file made by sm for test TRAFFIC LIGHT and also FINAL
+# using the map 'soongsil_all'
+# DON'T DELETE!!!
+not_use_mission_handler: false
+
+mission_names: ["parking", traffic1", "traffic3", "obstacle_avoidance", "traffic4", "delivery", 
+"traffic5", "traffic6", "traffic7", "traffic8", "traffic9", "traffic10"]
+mission_types: # parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3, delivery: 4
+  [0, 2, 2, 1, 2, 4, 2, 2, 2, 2, 2, 2]
+mission_activate_ary: [
+  false, # parking
+  true, # traffic1
+  true, # traffic3
+  false  # obstacle_avoidance
+  true, # traffic4
+  false, # delivery
+  true, # traffic5
+  true, # traffic6
+  true, # traffic7
+  true, # traffic8
+  true, # traffic9
+  true, # traffic10
+]
+#above 3 vectors must have same length
+
+
+#mission specific parameters - closely associated only with Mission.h
+traffic1: 
+  poly: [28.8913, 12.7258, 25.9701, 13.0221, 25.0099, 29.6729, 27.8826, 29.4522]
+  stopline_points : [25.098, 28.1824, 28.0188, 28.183] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 1 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic3: 
+  poly: [27.9075, 34.2312, 24.6126, 34.5271, 23.4316, 50.3797, 26.7899, 50.174]
+  stopline_points : [23.4721, 48.7237, 26.9625, 49.0736] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 3 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0 
+
+obstacle_avoidance: 
+  poly: [26.5043, 54.7836, 22.7519, 54.6874, 21.1537, 85.2228, 24.6548, 85.0211]
+  avoidance_velocity: 1.5
+  driving_velocity: 4.0
+  avoidance_distance: 4.5
+
+traffic4: 
+  poly: [20.0902, 92.6799, 19.9913, 87.9266, 0.7412, 87.7, 0.9947, 92.141]
+  stopline_points : [2.3037, 92.139, 2.0848, 87.7271] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 4 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+delivery:
+  poly: [-4.2252, 92.4758, -5.0738, 59.2029, -40.7695, 58.5036, -39.4543, 91.5406]
+  driving_velocity: 3.0
+  epsilon_goal_current: 1.0
+  max_waiting_time: 5
+
+traffic5: 
+  poly: [-40.9285, 57.8029, -37.3437, 57.787, -37.3154, 46.5648, -41.1333, 46.7375]
+  stopline_points : [-41.0584, 47.8272, -37.2457, 47.8067] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 5 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+  
+traffic6: 
+  poly: [-36.7113, 25.2388, -33.3908, 27.7063, -16.8536, 9.7063, -19.8983, 7.2376]
+  stopline_points : [-20.7632, 8.1286, -17.8486, 10.781] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 3
+  section: 6 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic7: 
+  poly: [5.8306, 3.3103, 5.5755, -1.3794, 24.7431, -1.2946, 24.2406, 3.1849]
+  stopline_points : [23.3846, -1.2704, 23.0804, 3.1566] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "LEFT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 7 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic8: 
+  poly: [31.7368, 20.4401, 28.9475, 20.5575, 27.9418, 42.6684, 30.6641, 43.0047]
+  stopline_points : [30.6856, 41.7585, 28.0532, 41.9158] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 3
+  section: 8 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic9: 
+  poly: [29.912, 51.7567, 27.1879, 51.8095, 25.4205, 84.8126, 27.8852, 84.7586]
+  stopline_points : [25.3513, 83.9324, 27.8875, 83.9264] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 9 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0
+
+traffic10: 
+  poly: [-46.2855, 65.1217, -41.6114, 65.4539, -41.155, 32.5832, -44.5537, 33.3026]
+  stopline_points : [-44.4985, 34.6597, -41.1111, 34.4351] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 10 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 30.0

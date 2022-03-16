@@ -1,0 +1,17 @@
+<launch>
+  <!--fake tracked obj sender-->
+  <!--<node pkg="fake_tracked_object_sender" type="fake_tracked_obj_sender" name="fake_tracked_obj_sender">
+    <param name="map_type" value="soongsil"/>
+  </node>-->
+
+	<rosparam command="load" file="$(find mission_handler_2021)/cfg/mission_params_soongsil_parking.yaml"/>
+	<node name="mission_manager" pkg="mission_handler_2021" type="mission_manager" output="screen"/>
+  
+
+	 <!-- Arguments -->
+  <!-- <arg name="model" default="waffle_pi" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="odom_topic" default="ekf_twist" />
+  <arg name="move_forward_only" default="false"/>
+  <arg name="goal_topic" default="/no_use_but_need_to_set_this_param"/> -->
+
+</launch>

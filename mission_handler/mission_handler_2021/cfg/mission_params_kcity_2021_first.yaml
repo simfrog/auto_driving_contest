@@ -1,0 +1,59 @@
+ #x, y, x, y, ...
+not_use_mission_handler: False
+
+mission_names: ["traffic1", "emergency_obstacle1", "traffic2", "emergency_obstacle2", "obstacle_avoidance"]
+mission_types: #parking : 0, obstacle_avoidance: 1, traffic: 2, emergency_obstacle: 3
+  [2, 3, 2, 3, 1]
+mission_activate_ary: [
+  true, #traffic 1                # 작년과 다름
+  true, #emergency_obstacle1       # 작년보다 더 길다
+  true, #traffic 2                # 작년과 다름
+  true, #emergency_obstacle2     # 작년과 동일
+  true  #obstacle_avoidance 
+]
+#above 3 vectors must have same length
+
+#mission specific parameters - closely associated only with Mission.h
+traffic1: 
+  poly: [132.844,-152.416, 148.431,-161.033, 150.422,-157.564, 135.389,-148.505]
+  stopline_points : [134.902,-148.186,132.882,-151.639] #(x1, y1), (x2, y2). they are points on the stopline
+  type : "STRAIGHT" # only LEFT, STRAIGHT_3, STRAIGHT_4 are allowed
+  n_hole: 4
+  section: 1 #traffic light area identifier. must be aligned with traffic light sender node
+  traffic_velocity: 4.0
+  driving_velocity: 4.0
+  safety_margin: 1.0
+  max_waiting_time: 60.0
+
+emergency_obstacle1: 
+  poly: [104.718, -84.4658, 107.7242, -82.2801, 128.9767, -93.4471, 126.5015, -98.9797]
+  poly_endLine: [128.2632, -99.9265, 130.7382, -94.3942, 128.9767, -93.4471, 126.5015, -98.9797]
+  driving_velocity : 4.0 
+  dynamic_obj_velocity : 1.5
+  detection_limit_x : 1.5
+  detection_limit_y : 1.0
+
+traffic2: 
+  poly: [128.9767, -93.4471, 126.5015, -98.9797, 132.5733, -95.5676, 129.9439, -100.7726]
+  stopline_points : [134.2612, -96.2883, 130.9058, -101.3466]
+  type : "STRAIGHT"
+  n_hole: 4
+  section: 2
+  traffic_velocity: 3.0
+  driving_velocity: 2.0
+  safety_margin: 1.0
+  max_waiting_time: 60.0
+
+emergency_obstacle2: 
+  poly: [132.5733, -95.5676, 129.9439, -100.7726, 171.4597, -123.0541, 173.8578, -117.5966]
+  poly_endLine: [169.664, -122.1745, 172.1332, -116.6501, 171.4597, -123.0541, 173.8578, -117.5966]
+  driving_velocity : 4.0 
+  dynamic_obj_velocity : 1.5
+  detection_limit_x : 1.5
+  detection_limit_y : 1.0
+
+obstacle_avoidance: 
+  poly: [155.292, -170.961, 163.043, -176.199, 145.362, -205.029, 138.209, -198.916]
+  avoidance_velocity: 1.5
+  driving_velocity: 4.0
+  avoidance_distance: 4.5
