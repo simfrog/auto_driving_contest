@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>erp42_driver</name>
+  <version>0.0.0</version>
+  <description>The erp42_driver package</description>
+
+  <maintainer email="sjrnfu12@naver.com">tw</maintainer>  <!-- One license tag required, multiple allowed, one license per tag -->
+  <license>TODO</license>  <!-- Url tags are optional, but multiple are allowed, one per tag -->
+  <buildtool_depend>catkin</buildtool_depend>  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+
+  </export>
+<build_depend>roscpp</build_depend>
+<build_depend>erp42_msgs</build_depend>
+<build_export_depend>roscpp</build_export_depend>
+<build_export_depend>erp42_msgs</build_export_depend>
+<exec_depend>roscpp</exec_depend>
+<exec_depend>erp42_msgs</exec_depend>
+<build_depend>serial</build_depend>
+<build_export_depend>serial</build_export_depend>
+<exec_depend>serial</exec_depend>
+<build_depend>tf</build_depend>
+<build_export_depend>tf</build_export_depend>
+<exec_depend>tf</exec_depend>
+
+<depend>autoware_msgs</depend>
+</package>

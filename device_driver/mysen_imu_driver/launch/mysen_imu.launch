@@ -1,0 +1,8 @@
+<launch>
+
+  <node pkg="mysen_imu_driver" type="driver_node" name="mysen_imu">
+    <param name="port" value="/dev/ttyUSB0"/>
+    <param name="mode" value="6"/>
+  </node>
+
+</launch>

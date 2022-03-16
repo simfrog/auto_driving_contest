@@ -1,0 +1,21 @@
+control:
+  cmd_is_steering_angle: false
+  wheelbase: 1.0
+
+  accel:
+    settling_time: 1.7
+
+  speed:
+    weight: 1.1
+    shift: 20.0
+
+  brake:
+    max: 100
+    kp: 135
+    ki: 0.0
+    kd: 0.0
+
+  steer:
+    kp: 1.0
+    ki: 0.0
+    kd: 0.0
