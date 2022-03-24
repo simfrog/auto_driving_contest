@@ -1,0 +1,3 @@
+<launch>
+    <node name="map2velodyne" pkg="lidar_quadtree_cluster" type="map2velodyne" output="screen" ></node>
+</launch>

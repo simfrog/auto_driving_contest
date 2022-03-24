@@ -1,0 +1,21 @@
+<launch>
+    <arg name="cone_size" default="1.0"/>
+    <arg name="road_width" default="6.0"/>
+    <arg name="search_radius" default="20.0"/>
+    <arg name="dist_threshold" default="0.2"/>
+    <arg name="final_waypoint_distance" default="5.0"/> 
+    <arg name="x_limit" default="6.0"/> 
+    <arg name="y_limit" default="1.0"/> 
+    <arg name="neighbor_distance" default="5.0"/>
+
+    <node name="track_driving" pkg="lidar_quadtree_cluster" type="track_driving" output="screen" >    
+        <param name="cone_size" value="$(arg cone_size)" />
+        <param name="road_width" value="$(arg road_width)" />
+        <param name="search_radius" value="$(arg search_radius)" />
+        <param name="dist_threshold" value="$(arg dist_threshold)" />
+        <param name="final_waypoint_distance" value="$(arg final_waypoint_distance)" />
+        <param name="x_limit" value="$(arg x_limit)" />
+        <param name="y_limit" value="$(arg y_limit)" />
+        <param name="neighbor_distance" value="$(arg neighbor_distance)" />
+    </node>
+</launch>

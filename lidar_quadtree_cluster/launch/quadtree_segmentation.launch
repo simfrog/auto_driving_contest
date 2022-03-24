@@ -1,0 +1,39 @@
+<launch>
+
+  <!-- input -->
+  <arg name="points_raw_topic" default="/filtered_points_raw"/> <!-- road_remover -->
+  <arg name="road_points_raw_topic" default="/unfiltered_points_raw"/>  <!-- road_remover -->
+  <arg name="road_points_topic" default="/local_road_points"/> <!-- road_extractor -->
+  <arg name="istrackdriving" default="false"/>
+
+  <!-- output -->
+  <arg name="publish_cloud_clusters_topic_name" default="/detection/lidar_detector/cloud_clusters"/> <!-- cloud_clusters -->
+  <arg name="publish_object_topic_name" default="/detection/lidar_detector/objects"/> <!-- objects -->
+  
+  <arg name="height_from_ground_to_lidar" default="0.89"/>
+  <arg name="z_high_limit" default="0.5" />
+  <arg name="erase_road_threshold" default="0.2" />
+
+  <arg name="my_car_width" default="1.2" />
+  <arg name="my_car_height" default="2.2" />
+  <arg name="max_cluster_size" default="500" />
+
+  <node name="quadtree_segmentation" pkg="lidar_quadtree_cluster" type="quadtree_segmentation" output="screen">
+
+    <param name="points_raw_topic" value="$(arg points_raw_topic)" />
+    <param name="road_points_raw_topic" value="$(arg road_points_raw_topic)" />
+    <param name="road_points_topic" value="$(arg road_points_topic)" />
+    
+    <param name="height_from_ground_to_lidar" value="$(arg height_from_ground_to_lidar)" />
+    <param name="z_high_limit" value="$(arg z_high_limit)" />
+    <param name="erase_road_threshold" value="$(arg erase_road_threshold)" />
+
+    <param name="my_car_width" value="$(arg my_car_width)"/>
+    <param name="my_car_height" value="$(arg my_car_height)"/>
+    <param name="max_cluster_size" value="$(arg max_cluster_size)"/>
+
+    <param name="publish_cloud_clusters_topic_name" value="$(arg publish_cloud_clusters_topic_name)"/>
+    <param name="publish_object_topic_name" value="$(arg publish_object_topic_name)"/>
+
+  </node>
+</launch>
