@@ -1,0 +1,71 @@
+<launch>
+
+<!-- input -->
+  <arg name="points_raw_topic_name" default="/points_raw"/>
+  <arg name="pose_topic_name" default="/localizer_pose"/>
+  <arg name="point_map_topic_name" default="/points_map"/>
+
+  <!-- output -->
+  <arg name="publish_no_road_point_topic_name" default="/filtered_points_raw"/>
+  <arg name="publish_road_point_topic_name" default="/unfiltered_points_raw"/>
+
+  <node name="road_remover" pkg="road_remover" type="road_remover" output="screen" > 
+      <param name="points_raw_topic_name" value="$(arg points_raw_topic_name)" />
+      <param name="pose_topic_name" value="$(arg pose_topic_name)" />
+      <param name="point_map_topic_name" value="$(arg point_map_topic_name)" />
+      <param name="publish_no_road_point_topic_name" value="$(arg publish_no_road_point_topic_name)" />
+      <param name="publish_road_point_topic_name" value="$(arg publish_road_point_topic_name)" />
+  </node>
+<!-- input -->
+  <arg name="points_raw_topic" default="/filtered_points_raw"/> <!-- road_remover -->
+  <arg name="road_points_raw_topic" default="/unfiltered_points_raw"/>  <!-- road_remover -->
+  <arg name="road_points_topic" default="/local_road_points"/> <!-- road_extractor -->
+
+  <!-- output -->
+  <arg name="publish_cloud_clusters_topic_name" default="/detection/lidar_detector/cloud_clusters"/> <!-- cloud_clusters -->
+<!--<arg name="publish_object_topic_name" default="/detection/lidar_detector/objects"/>--> <!-- objects -->
+  <arg name="publish_object_topic_name" default="/tracked_objects"/> <!--no use kf-->
+  
+  <arg name="height_from_ground_to_lidar" default="0.89"/>
+  <arg name="z_high_limit" default="0.5" />
+  <arg name="erase_road_threshold" default="0.2" />
+
+  <arg name="my_car_width" default="1.2" />
+  <arg name="my_car_height" default="2.2" />
+  <arg name="max_cluster_size" default="500" />
+
+  <arg name="istrackdriving" default="false"/>
+
+  <node name="quadtree_segmentation" pkg="lidar_quadtree_cluster" type="quadtree_segmentation" output="screen">
+
+    <param name="points_raw_topic" value="$(arg points_raw_topic)" />
+    <param name="road_points_raw_topic" value="$(arg road_points_raw_topic)" />
+    <param name="road_points_topic" value="$(arg road_points_topic)" />
+    
+    <param name="height_from_ground_to_lidar" value="$(arg height_from_ground_to_lidar)" />
+    <param name="z_high_limit" value="$(arg z_high_limit)" />
+    <param name="erase_road_threshold" value="$(arg erase_road_threshold)" />
+    <param name="my_car_width" value="$(arg my_car_width)"/>
+    <param name="my_car_height" value="$(arg my_car_height)"/>
+    <param name="max_cluster_size" value="$(arg max_cluster_size)"/>
+
+    <param name="publish_cloud_clusters_topic_name" value="$(arg publish_cloud_clusters_topic_name)"/>
+    <param name="publish_object_topic_name" value="$(arg publish_object_topic_name)"/>
+
+    <param name="istrackdriving" value="$(arg istrackdriving)"/>
+
+  </node>
+
+	<node pkg="parking_mission" type="parking_mission" name="parking_mission" output="screen">
+		<!-- <param name="parkinglotpoints_file_name" value="/home/autoware/shared_dir/map/parking_mission/kcity_picking_list.csv"/> -->
+    <param name="parkinglotpoints_file_name" value="/home/autoware/shared_dir/map/parking_mission/soongsil_picking_list.csv"/>
+    <param name="checkpoint_reach_threshold" value="0.7"/>
+    <param name="one_parking_area_point_num" value="5"/>
+  </node>
+
+  <arg name="velocity" default="0.3"/>
+    <node pkg="final_waypoint_follower" type="final_waypoint_follower" name="final_waypoint_follower" output="screen">
+		  <param name="velocity" value="$(arg velocity)"/>
+    </node>
+
+</launch>
