@@ -1,0 +1,33 @@
+<launch>
+
+  <arg name="width" default="1920"/>
+  <arg name="height" default="1200"/>
+
+  <arg name="c_x" default="$(eval 0.5 * arg('width'))"/>
+  <arg name="c_y" default="$(eval 0.5 * arg('height'))"/>
+  <arg name="f_x" default="2239.382"/>
+  <arg name="f_y" default="2231.110"/>
+  <arg name="max_f" default="$(eval arg('f_x') if arg('f_x') >= arg('f_y') else arg('f_y'))"/>
+
+  <arg name="calib_mat_K" default="[$(arg max_f), 0, $(arg c_x), 0, $(arg max_f), $(arg c_y), 0, 0, 1]"/>
+  <arg name="calib_mat_R" default="[1, 0, 0, 0, 1, 0, 0, 0, 1]"/>
+  <arg name="calib_mat_P" default="[$(arg max_f), 0, $(arg c_x), 0, 0, $(arg max_f), $(arg c_y), 0, 0, 0, 1, 0]"/>
+  <arg name="calib_mat_D" default="[0.1726 -2.348617 0.011128 0.009115]"/>
+
+  <node name="camera_info_publisher" pkg="camera_info_publisher" type="camera_info_publisher" output="screen">
+
+    <param name="width" value="$(arg width)" />
+    <param name="height" value="$(arg height)" />
+    <param name="c_x" value="$(arg c_x)" />
+    <param name="c_y" value="$(arg c_y)" />
+    <param name="f_x" value="$(arg f_x)" />
+    <param name="f_y" value="$(arg f_y)" />
+    <param name="max_f" value="$(arg max_f)" />
+
+    <param name="calib_mat_K" value="$(arg calib_mat_K)" />
+    <param name="calib_mat_R" value="$(arg calib_mat_R)" />
+    <param name="calib_mat_P" value="$(arg calib_mat_P)" />
+    <param name="calib_mat_D" value="$(arg calib_mat_D)" />
+
+  </node>
+</launch>
