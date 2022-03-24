@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="final_waypoint_follower" type="final_waypoint_follower" name="final_waypoint_follower" output="screen">
+		<param name="linear_v" value="1"/>
+		<!-- <param name="angular_w" value="1"/> -->
+		<!-- <param name="variable_velocity" value="false"/> -->
+  </node>
+</launch>
