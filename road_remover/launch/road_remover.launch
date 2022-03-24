@@ -1,0 +1,18 @@
+<launch>
+    <!-- input -->
+    <arg name="points_raw_topic_name" default="/points_raw"/>
+    <arg name="pose_topic_name" default="/localizer_pose"/>
+    <arg name="point_map_topic_name" default="/points_map"/>
+
+    <!-- output -->
+    <arg name="publish_no_road_point_topic_name" default="/filtered_points_raw"/>
+    <arg name="publish_road_point_topic_name" default="/unfiltered_points_raw"/>
+
+    <node name="road_remover" pkg="road_remover" type="road_remover" output="screen" > 
+        <param name="points_raw_topic_name" value="$(arg points_raw_topic_name)" />
+        <param name="pose_topic_name" value="$(arg pose_topic_name)" />
+        <param name="point_map_topic_name" value="$(arg point_map_topic_name)" />
+        <param name="publish_no_road_point_topic_name" value="$(arg publish_no_road_point_topic_name)" />
+        <param name="publish_road_point_topic_name" value="$(arg publish_road_point_topic_name)" />
+    </node>
+</launch>
