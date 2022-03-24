@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="odom_imu_merger" type="odom_imu_merger" name="odom_imu_merger">
+        <param name="odom_topic" value="vehicle/odom"/>
+        <param name="imu_topic" value="imu"/>
+        <param name="twist_topic" value="can_twist"/>
+    </node>
+</launch>
