@@ -1,0 +1,4 @@
+<launch>
+  <node name="goal_intializer" pkg="goal_initial" type="goal_initial" output="screen" >
+  </node>
+</launch>

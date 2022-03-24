@@ -1,0 +1,114 @@
+#include "ros/ros.h"
+#include "geometry_msgs/PoseStamped.h"  
+#include "vector_map_msgs/PointArray.h"
+#include <geometry_msgs/TwistStamped.h>
+#include <thread>
+class GoalInitializer{
+public:
+    GoalInitializer(){
+        goal_pub = nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1000);
+        vector_map_sub = nh.subscribe("/vector_map_info/point", 1000, &GoalInitializer::vectormap_cb, this);
+        //twist_sub = nh.subscribe("twist_cmd", 1000, asdf, this);
+    }
+
+    void vectormap_cb(const vector_map_msgs::PointArrayConstPtr& ptr){
+        // int size = ptr->Point.size();
+        // float x = ptr->Point[size+1].data.ly;
+        // float y = ptr->Point[size+1].data.bx
+
+        //int size = ptr->Point.size();
+        Gx = ptr->data.back().ly;
+        //(ptr->data.end() - 2)->ly;
+        Gy = ptr->data.back().bx;
+
+        // angle calculate
+        // float z = 
+        // float w =
+	is_vectormap_subscribed = true;
+
+	std::thread(&GoalInitializer::run, this).detach();
+    }
+
+    // void twist_cb(const geometry_msgs::TwistStamedConstPtr& ptr){
+    //     bool 
+    // }
+
+    void run(){
+		ros::Rate loop_rate(1);
+        while(ros::ok()){
+			//if (is_vectormap_subscribed){
+            	msg.header.stamp= ros::Time::now();
+            	//set frame_id
+            	msg.header.frame_id = "map";
+            	//set position
+            
+            	msg.pose.position.x = Gx;
+            	msg.pose.position.y = Gy;
+            	msg.pose.position.z = 0.0;
+            	//set orientation
+            	msg.pose.orientation.x = 0.0;
+            	msg.pose.orientation.y = 0.0;
+            	msg.pose.orientation.z = -0.265380073749;
+            	msg.pose.orientation.w = 0.964143877467;
+
+            	ROS_INFO("thread : %lf, %lf \n", Gx, Gy);
+            	goal_pub.publish(msg);
+            //}
+            loop_rate.sleep();
+        
+            
+        }
+    }
+
+private:
+    ros::NodeHandle nh;
+    ros::Publisher goal_pub;
+    ros::Subscriber vector_map_sub, twist_sub;
+    geometry_msgs::PoseStamped msg;
+	bool is_vectormap_subscribed;
+    float Gx, Gy;
+};
+
+int main( int argc, char **argv )
+{
+    geometry_msgs::PoseStamped msg;
+    ros::init( argc, argv, "goal_initial" );
+    ros::NodeHandle nh;
+    ros::Rate loop_rate(10);
+    
+    GoalInitializer g;
+
+	ros::spin();
+    
+
+    return 0;
+}
+
+
+// void goal_initial(const geometry_msgs::PoseStamppedPtr& ptr){
+   
+//    //set frame_id
+//    ptr->header.frame_id = "map";
+//    //set position
+//    ptr->pose.position.x = 243.367980957;
+//    ptr->pose.position.y = -217.06489563;
+//    ptr->pose.position.z = 0.0;
+//    //set orientation
+//    ptr->pose.orientation.x = 0.0;
+//    ptr->pose.orientation.y = 0.0;
+//    ptr->pose.orientation.z = -0.265380073749;
+//    ptr->pose.orientation.w = 0.964143877467;
+
+//    ROS_INFO("x : %d, y : %d, width : %d, height : %d \n", ptr->objects[index].x, ptr->objects[index].y, ptr->objects[index].width, ptr->objects[index].height);
+
+// }
+// int main(int argc, char *argv[]){
+//     ros::init(argc, argv, "goal_initial");
+//     ros::NodeHandle nh;
+
+//     ros::Publisher pub = ground_truth_pose2
+
+//     ros::spin();
+
+//     return 0;
+// }
