@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="imu_vn100_yu" type="imu_driver_node" name="vn100_imu">
+    <param name="port" value="/dev/vn100_imu"/>
+    <param name="baudrate" value="115200"/>
+  </node>
+
+</launch>
