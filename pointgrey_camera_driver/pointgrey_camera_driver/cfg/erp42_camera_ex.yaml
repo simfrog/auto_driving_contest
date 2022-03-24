@@ -1,0 +1,93 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  auto_exposure: true # 자동 노출
+  auto_gain: true # 자동 감도
+  auto_saturation: false # 자동 채도
+  auto_sharpness: true # 자동 선명도(선예도)
+  auto_shutter: false # 자동 셔터 속도
+  auto_white_balance: false # 자동 화이트 밸런스
+  brightness: 0.48828125 # 휘도(밝기, 조리개값)
+  enable_strobe1: false # 플래시(섬광)
+  enable_strobe2: false
+  enable_trigger: false # 트리거 모드(카메라가 명령이 주어질 때만 촬영)
+  enable_trigger_delay: false
+  exposure: -0.0614013671875 # 노출값
+  format7_color_coding: rgb8 # 색 정보
+  format7_roi_height: 0 # format7 클래스(roi 만들어줌, kinetic only)
+  format7_roi_width: 0
+  format7_x_offset: 0
+  format7_y_offset: 0
+  frame_rate: 25.0 # fps(format7에서는 지원 x)
+  gain: 0.0 # 감도
+  gamma: 2.275390625
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      auto_exposure: true
+      auto_gain: true
+      auto_saturation: false
+      auto_sharpness: true
+      auto_shutter: false
+      auto_white_balance: false
+      brightness: 0.48828125
+      enable_strobe1: false
+      enable_strobe2: false
+      enable_trigger: false
+      enable_trigger_delay: false
+      exposure: -0.0614013671875
+      format7_color_coding: rgb8
+      format7_roi_height: 0
+      format7_roi_width: 0
+      format7_x_offset: 0
+      format7_y_offset: 0
+      frame_rate: 25.0
+      gain: 0.0
+      gamma: 2.275390625
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      name: Default
+      pan: 0
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      saturation: 395.01953125
+      sharpness: 0.0
+      shutter_speed: 0.030040502548217773
+      state: true
+      strobe1_delay: 0.0
+      strobe1_duration: 0.0
+      strobe1_polarity: 0
+      strobe2_delay: 0.0
+      strobe2_duration: 0.0
+      strobe2_polarity: 0
+      tilt: 0 # 카메라 틸트(상하 움직임, 피치 +:up, 0:horizon, -:down)
+      trigger_delay: 0.0
+      trigger_mode: mode0 # mode0:비활성화, mode1:기본 간격계, mode2:간격계 on, mode3:거리기반 트리거, mode4:misson모드
+      trigger_parameter: 0
+      trigger_polarity: 0 # 트리거 극성
+      trigger_source: gpio0
+      type: ''
+      video_mode: format7_mode0
+      white_balance_blue: 739
+      white_balance_red: 739
+    state: []
+  pan: 0 # 파노라마
+  saturation: 395.01953125
+  sharpness: 0.0
+  shutter_speed: 0.030040502548217773
+  strobe1_delay: 0.0
+  strobe1_duration: 0.0
+  strobe1_polarity: 0
+  strobe2_delay: 0.0
+  strobe2_duration: 0.0
+  strobe2_polarity: 0
+  tilt: 0
+  trigger_delay: 0.0
+  trigger_mode: mode0
+  trigger_parameter: 0
+  trigger_polarity: 0
+  trigger_source: gpio0
+  video_mode: format7_mode0
+  white_balance_blue: 739
+  white_balance_red: 739
+state: []
