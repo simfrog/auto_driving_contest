@@ -2,7 +2,7 @@
 - Affiliation: Soongsil University<br> 
 - Departments: SmartsystemSW, Mechanical Engineering<br>
 - Team Members<br>
-문지원, 박경식, 박재현, 인수민<br>
+문지원, 박경식, 인수민<br>
 강민서, 박승, 이창오, 황정재
 
 ## Introduction of the System
