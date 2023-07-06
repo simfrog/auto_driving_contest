@@ -1,4 +1,4 @@
-# 2021AutonomousCar-SSORA
+# auto_driving_contest
 - Affiliation: Soongsil University<br> 
 - Departments: SmartsystemSW, Mechanical Engineering<br>
 - Team Members<br>
