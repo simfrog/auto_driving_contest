@@ -1,7 +1,7 @@
 # auto_driving_contest
 - Affiliation: Soongsil University<br> 
 - Departments: SmartsystemSW, Mechanical Engineering<br>
-- Team Members<br>
+- Team SSORA Members<br>
 문지원, 박경식, 인수민<br>
 강민서, 박승, 이창오, 황정재
 
